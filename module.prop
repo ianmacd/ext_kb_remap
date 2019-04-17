@@ -1,0 +1,6 @@
+id=ext-kb-remap
+name=External keyboard remapper
+version=v1.0
+versionCode=10
+author=ianmacd
+description=Remaps the keys of an external keyboard.
