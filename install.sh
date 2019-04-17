@@ -171,7 +171,7 @@ on_install() {
     ui_print "- No external keyboard found."
     ui_print "- Is your device currently connected?"
     exit 1
-  elif [ ! -f $kl_dir/$kl ]; then
+  elif [ ! -f $mirror$kl_dir/$kl ]; then
     ui_print "- $kb device found, but keyboard layout file $kl not found."
     exit 2
   fi
@@ -181,7 +181,6 @@ on_install() {
   # kl=/system/usr/keylayout/Vendor_04e8_Product_7021.kl
   ui_print "- $kb device found."
   ui_print "- Keyboard layout file $kl found."
-
   ui_print "- Modifying file..."
 
   mkdir -p $MODPATH$kl_dir
@@ -221,6 +220,8 @@ set_permissions() {
 # You can add more functions to assist your custom script code
 
 md5() {
-  # Magisk's BusyBox evidently doesn't support -b switch to md5sum.
+  # Magisk's BusyBox evidently ignores -b switch to md5sum(1), so we
+  # supplement with cut(1).
+  #
   md5sum -b "$1" | cut -d' ' -f 1
 }
