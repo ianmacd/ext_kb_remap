@@ -168,12 +168,9 @@ on_install() {
   eval $(sed -rne '/^I: Bus=/{N;/[Kk]eyboard/s/^.+(Vendor)=(....) (Product)=(....).+Name="([^"]+).+$/kl=\1_\2_\3_\4.kl; kb="\5"/p}' $in_devs)
 
   if [ -z "$kl" ]; then
-    ui_print "- No external keyboard found."
-    ui_print "- Is your device currently connected?"
-    exit 1
+    abort "! No external keyboard found. Is your device connected?"
   elif [ ! -f $mirror$kl_dir/$kl ]; then
-    ui_print "- $kb device found, but keyboard layout file $kl not found."
-    exit 2
+    abort "! $kb device found, but keyboard layout file $kl not found."
   fi
 
   # Remap keyboard.
@@ -192,8 +189,7 @@ on_install() {
   new_md5=$(md5 $MODPATH$kl_dir/$kl)
 
   if [ $old_md5 = $new_md5 ]; then
-    ui_print "- Failed to make any changes. Please contact the developer."
-    exit 3
+    abort "! Failed to make any changes. Please contact the developer."
   fi
 
   ui_print "- Old MD5 sum: $old_md5."
